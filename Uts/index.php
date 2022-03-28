@@ -1,7 +1,19 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit;
+}
+
 require 'function.php';
 $mahasiswa = query("SELECT * FROM mahasiswa");
+
+// ketika tombol cari di klik maka akan menampilkan hasil data yang dicari
+if (isset($_POST["cari"])) {
+    $mahasiswa = cari($_POST["keyword"]);
+}
 
 ?>
 
@@ -19,10 +31,18 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
 
 <body>
 
+
+
     <h1>Daftar Mahasiswa</h1>
 
     <a href="tambah.php">Tambah Data</a>
     <br><br>
+
+    <form action="" method="POST">
+        <input type="text" name="keyword" size="40" autofocus placeholder="Cari data yang diinginkan.." autocomplete="off">
+        <button type="submit" name="cari"> Search</button>
+    </form>
+    <br>
 
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
@@ -55,6 +75,10 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
         <?php endforeach; ?>
 
     </table>
+
+    <br>
+
+    <a href="logout.php"> Logout</a>
 
 </body>
 

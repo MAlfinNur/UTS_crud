@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!$_SESSION["login"]) {
+    header("Location: login.php");
+    exit;
+}
+
 require 'function.php';
 
 //ambil data di URL
@@ -44,8 +51,9 @@ if (isset($_POST["submit"])) {
 
     <h1>Ubah Data Mahasiswa</h1>
 
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= $mhs["id"] ?>">
+        <input type="hidden" name="gambarlama" value="<?= $mhs["gambar"] ?>">
         <ul>
             <li>
                 <label for="nama"> NAMA : </label>
@@ -65,7 +73,8 @@ if (isset($_POST["submit"])) {
             </li>
             <li>
                 <label for="gambar"> PHOTO : </label>
-                <input type="text" name="gambar" id="gambar" required value="<?= $mhs["gambar"] ?>">
+                <img src="img/<?= $mhs["gambar"] ?>" width="40">
+                <input type="file" name="gambar" id="gambar">
             </li>
             <li>
                 <button type="submit" name="submit">Ubah Data</button>
